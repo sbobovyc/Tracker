@@ -20,7 +20,8 @@ class GUI_display_frame(tk.Frame):
         
         # create a scrollable canvas
         tk.Frame.__init__(self, parent, bd=2, relief=tk.FLAT, background="grey")
-                 
+#        self.label = tk.Label(self, image=tk.PhotoImage(width=32, height=32))
+#        self.label.pack()
         self.xscrollbar = tk.Scrollbar(self, orient=tk.HORIZONTAL)      
         self.xscrollbar.pack(side=tk.BOTTOM, fill=tk.X)  
         

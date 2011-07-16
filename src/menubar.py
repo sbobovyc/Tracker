@@ -31,9 +31,10 @@ class GUI_menubar(tk.Menu):
         self.add_cascade(label="File", menu=filemenu)
 #        filemenu.add_command(label="New Project", command=self.callback())
 #        filemenu.add_command(label="Open Project", command=self.callback())
-        filemenu.add_command(label="Add Shapefile...", command=self.file_open)
-        filemenu.add_command(label="Add Raster...", command=self.file_open)
-        
+        filemenu.add_command(label="Add Shapefile...", command=self.file_add_shapefile)
+        filemenu.add_command(label="Add Raster...", command=self.file_add_raster)
+        filemenu.add_command(label="Open...", command=self.file_open)
+        filemenu.add_command(label="Render", command=self.file_render)
 #        filemenu.add_command(label="Save", command=self.callback())
 #        filemenu.add_command(label="Save as", command=self.file_save)
 #        filemenu.add_command(label="Save Layers", command=self.file_save_layer)
@@ -50,7 +51,18 @@ class GUI_menubar(tk.Menu):
     def file_open(self):                
         source_image_path = tkFileDialog.askopenfilename()
         self.controller.open_image(source_image_path) 
-    
+        
+    def file_add_shapefile(self):                
+        source_path = tkFileDialog.askopenfilename()
+        self.controller.add_shapefile(source_path)
+        
+    def file_add_raster(self):                
+        source_path = tkFileDialog.askopenfilename()
+        self.controller.add_raster(source_path)
+        
+    def file_render(self):
+        self.controller.render()
+             
     def file_save(self):
         output_image_path = tkFileDialog.asksaveasfilename(filetypes=self.file_types)
         self.controller.save_image(output_image_path)
