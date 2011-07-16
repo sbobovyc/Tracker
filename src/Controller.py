@@ -87,12 +87,10 @@ class Render_Thread(threading.Thread):
         # convert to PIL image
         pil_img = Image.fromstring('RGBA', (width, height), img.tostring())
         # convert to ImageTk
-        self.imagetk=ImageTk.PhotoImage(pil_img)                       
-#        self.object_map["display_frame"].label.configure(image=self.imagetk)
-#        self.object_map["display_frame"].label.update_idletasks()
+        self.imagetk=ImageTk.PhotoImage(pil_img)                               
         self.object_map["display_frame"].canvas.create_image(0,0,image=self.imagetk, anchor=tk.NW)            
         # to prevent flickering, update
-        self.object_map["display_frame"].canvas.update()
+        self.object_map["display_frame"].canvas.update_idletasks()
         time.sleep(float(1/7))
             
             
@@ -164,11 +162,11 @@ class Controller(object):
         render_thread = Render_Thread(self.object_map, self.queue, self.map, self.layer_list)
         render_thread.setDaemon(True)
         render_thread.start()        
-#        supply_thread = Supplier_Thread(self.queue)
-#        supply_thread.setDaemon(True)
-#        supply_thread.start()        
-#        self.queue.join()
-        #### THREADED
+        supply_thread = Supplier_Thread(self.queue)
+        supply_thread.setDaemon(True)
+        supply_thread.start()        
+        self.queue.join()
+        
         
         
         ### Shape
