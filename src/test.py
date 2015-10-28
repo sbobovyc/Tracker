@@ -34,7 +34,7 @@ rule.symbols.append(symbolizer)
 style = mapnik.Style()
 style.rules.append(rule)
 layer = mapnik.Layer("mapLayer")
-layer.datasource = mapnik.Shapefile(file="/home/sbobovyc/Desktop/geo/110m_land.shp")
+layer.datasource = mapnik.Shapefile(file="/usr/share/magics/110m/110m_land.shp")
 layer.styles.append("mapStyle")        
 map.background = mapnik.Color("steelblue")
 map.append_style("mapStyle", style)        
@@ -54,7 +54,7 @@ pygame.init()
 size=[width,height]
 screen=pygame.display.set_mode(size)
  
-pygame.display.set_caption("My Game")
+pygame.display.set_caption("Point plotter")
  
 #Loop until the user clicks the close button.
 done=False
@@ -74,8 +74,11 @@ while done==False:
         point = queue.get()            #point is a tuple
                 
         # make point
-        pds = mapnik.PointDatasource()
-        pds.add_point(point[0], point[1],'Name','d')            
+        ds = mapnik.MemoryDatasource()
+        f = mapnik.Feature(mapnik.Context(), 1)
+        f.add_geometries_from_wkt("POINT (%f %f)" % (point[0], point[1]))
+        ds.add_feature(f)
+        #pds.add_point(point[0], point[1],'Name','d')            
         
         # create point symbolizer for blue icons
         if mapnik.mapnik_version() >= 800:
@@ -93,7 +96,7 @@ while done==False:
         s.rules.append(r)
 
         layer2 = mapnik.Layer('GPS Coord')
-        layer2.datasource = pds
+        layer2.datasource = ds
         layer2.styles.append('Style')
         map.append_style('Style',s)
         

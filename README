@@ -1,0 +1,2 @@
+Installing GIS data:
+sudo apt-get install libmagics++-data
